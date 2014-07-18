@@ -15,7 +15,6 @@ import com.suning.service.LoginInfoService;
 @Service
 public class LoginInfoHandleServiceImpl implements LoginInfoHandleService {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginInfoHandleServiceImpl.class);
 
     @Autowired
     LoginInfoService            loginInfoService;
