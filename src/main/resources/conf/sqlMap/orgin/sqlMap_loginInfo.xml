@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<sqlMap namespace="T_LOGIN_INFO">
+
+ 
+
+ 
+
+ 
+<sql  id="INSERT">
+        <![CDATA[
+	        INSERT INTO
+	            LOGIN_INFO
+	               (
+	              <#if password ? exists > PASSWORD, </#if>
+	              <#if userid ? exists > USERID,</#if>
+	              <#if token ? exists > TOKEN,</#if>
+	              <#if status ? exists > STATUS,</#if>
+	              <#if username ? exists > USERNAME </#if>
+		           )
+	              VALUES
+	              (
+	              <#if password ? exists>:password, </#if>
+				  <#if userid ? exists>:userid,</#if>
+				  <#if token ? exists >:token,</#if>
+	              <#if status ? exists >:status,</#if>
+	              <#if username ? exists>:username</#if>
+	              )
+	    ]]>
+
+</sql> 
+	
+	
+<sql id="DELETE">
+<![CDATA[
+     DELETE FROM LOGIN_INFO
+        WHERE
+    	              1=1
+    	              <#if username ? exists>AND USERNAME = :username</#if>          
+    	              <#if password ? exists>AND PASSWORD = :password</#if>          
+    	              <#if userid ? exists>AND USERID = :userid</#if>        
+ ]]>         
+    	           
+</sql>	
+ 
+  
+ <!-- 根据字段查询 -->
+<sql id="SELECT_BY_FIELDS">
+    <![CDATA[
+    	   SELECT
+		    	      USERNAME,
+		    	      PASSWORD,
+		    	      USERID,
+		    	      TOKEN,
+		    	      STATUS
+    	   FROM
+    	              LOGIN_INFO
+    	   WHERE
+    	              1=1
+    	              <#if username ? exists>AND USERNAME = :username</#if>          
+    	              <#if password ? exists>AND PASSWORD = :password</#if>          
+    	              <#if userid ? exists>AND USERID = :userid</#if>    
+    	              <#if token ? exists>AND TOKEN = :token</#if>    
+    	              <#if status ? exists>AND STATUS = :status</#if>                 
+    	           
+    	]]>
+	</sql>
+ 
+ <sql  id="UPDATE">
+ 	<![CDATA[
+    UPDATE LOGIN_INFO
+    SET
+        <#if password ? exists > PASSWORD=:password, </#if>
+	    <#if userid ? exists > USERID=:userid,</#if>
+	    <#if status ? exists > STATUS=:status, </#if>
+	    <#if token ? exists > TOKEN=:token, </#if>
+	    <#if username ? exists > USERNAME=:username </#if>
+	WHERE
+	      USERNAME=:username
+ 	]]>
+ </sql>
+  
+   
+</sqlMap>
