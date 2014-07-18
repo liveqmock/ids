@@ -17,9 +17,10 @@ public class LoginInfoServiceImpl implements LoginInfoService {
     DalClient dalClient;
 
     @Override
-    public LoginInfoBean getLoginInfoBeanByUsername(String username) {
+    public LoginInfoBean getLoginInfoBeanByUsername(String status,String username) {
         Map<String,Object> map=new HashMap<String ,Object>();
         map.put("username", username);
+        map.put("status", status);
         LoginInfoBean loginInfoBean=dalClient.queryForObject("T_LOGIN_INFO.SELECT_BY_FIELDS",map , LoginInfoBean.class);
         return  loginInfoBean;
     }
@@ -41,9 +42,10 @@ public class LoginInfoServiceImpl implements LoginInfoService {
     }
 
     @Override
-    public LoginInfoBean getLoginInfoBeanByUserid(String userid) {
+    public LoginInfoBean getLoginInfoBeanByUserid(String status,String userid) {
         Map<String,Object> map=new HashMap<String ,Object>();
         map.put("userid", userid);
+        map.put("status", status);
         LoginInfoBean loginInfoBean=dalClient.queryForObject("T_LOGIN_INFO.SELECT_BY_FIELDS",map , LoginInfoBean.class);
         return  loginInfoBean;
     }
@@ -57,22 +59,22 @@ public class LoginInfoServiceImpl implements LoginInfoService {
     }
 
     @Override
-    public String queryUserIdByToken(String token) {
-        LoginInfoBean loginInfoBean=queryLoginInfoBeanByToken(token);
+    public String queryUserIdByToken(String status,String token) {
+        LoginInfoBean loginInfoBean=queryLoginInfoBeanByToken( status,token);
         return loginInfoBean!=null?loginInfoBean.getUserid():null;
     }
 
     @Override
-    public String queryUsernamedByToken(String token) {
-        LoginInfoBean loginInfoBean=queryLoginInfoBeanByToken(token);
+    public String queryUsernamedByToken(String status,String token) {
+        LoginInfoBean loginInfoBean=queryLoginInfoBeanByToken( status,token);
         return loginInfoBean!=null?loginInfoBean.getUsername():null;
     }
 
     @Override
-    public LoginInfoBean queryLoginInfoBeanByToken(String token) {
+    public LoginInfoBean queryLoginInfoBeanByToken(String status,String token) {
         Map<String,Object> map=new HashMap<String ,Object>();
         map.put("token", token);
-        map.put("status", IdsConstant.STATUS_1);
+        map.put("status", status);
         return dalClient.queryForObject("T_LOGIN_INFO.SELECT_BY_FIELDS",map , LoginInfoBean.class);
     }
 

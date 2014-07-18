@@ -4,7 +4,7 @@ import com.suning.dto.LoginInfoBean;
 
 public interface LoginInfoService {
     
-    public LoginInfoBean getLoginInfoBeanByUsername(String username);
+    public LoginInfoBean getLoginInfoBeanByUsername(String status,String username);
         
     public int insertLoginInfo(LoginInfoBean loginInfoBean);
     
@@ -22,15 +22,15 @@ public interface LoginInfoService {
      */
     public int udpateStatusByUsername(String status ,String username);
     
-    public LoginInfoBean getLoginInfoBeanByUserid(String userid);
+    public LoginInfoBean getLoginInfoBeanByUserid(String status,String userid);
 
     /**
      * 
      * 功能描述：根据token获取userid
      */
-    public String queryUserIdByToken(String token);
+    public String queryUserIdByToken(String status,String token);
     
-    public String queryUsernamedByToken(String token);
+    public String queryUsernamedByToken(String status,String token);
     
-    public LoginInfoBean queryLoginInfoBeanByToken(String token) ;
+    public LoginInfoBean queryLoginInfoBeanByToken(String status,String token) ;
 }

@@ -20,8 +20,7 @@ public class LoginInfoHandleServiceImpl implements LoginInfoHandleService {
     @Override
     @Transactional
     public void addOrUpdateLoginInfo(LoginInfoBean loginInfoBean) {
-        LoginInfoBean bean = loginInfoService.getLoginInfoBeanByUsername(loginInfoBean
-                .getUsername());
+        LoginInfoBean bean = loginInfoService.getLoginInfoBeanByUsername(null,loginInfoBean.getUsername());
         loginInfoBean.setToken(getTokenByUserid(loginInfoBean.getUserid()));
         if (bean != null) {
             loginInfoService.updateLoginInfoByUsername(loginInfoBean);
@@ -34,7 +33,7 @@ public class LoginInfoHandleServiceImpl implements LoginInfoHandleService {
 
     @Override
     public String getUseridByUsername(String username) {
-        LoginInfoBean loginInfoBean = loginInfoService.getLoginInfoBeanByUsername(username);
+        LoginInfoBean loginInfoBean = loginInfoService.getLoginInfoBeanByUsername(IdsConstant.STATUS_1,username);
         return loginInfoBean != null ? loginInfoBean.getUserid() : null;
     }
 
@@ -61,7 +60,7 @@ public class LoginInfoHandleServiceImpl implements LoginInfoHandleService {
     @Override
     @Transactional
     public String login(LoginInfoBean loginInfoBean) {
-        LoginInfoBean loginInfoBeanOfQuery = loginInfoService.getLoginInfoBeanByUsername(loginInfoBean.getUsername());
+        LoginInfoBean loginInfoBeanOfQuery = loginInfoService.getLoginInfoBeanByUsername(null,loginInfoBean.getUsername());
         String token="";
         if(loginInfoBeanOfQuery != null){
             loginInfoService.udpateStatusByUsername(IdsConstant.STATUS_1,loginInfoBeanOfQuery.getUsername());
@@ -77,7 +76,7 @@ public class LoginInfoHandleServiceImpl implements LoginInfoHandleService {
     
     @Override
     public String logout(String token){
-        LoginInfoBean loginInfoBean=loginInfoService.queryLoginInfoBeanByToken(token);
+        LoginInfoBean loginInfoBean=loginInfoService.queryLoginInfoBeanByToken(IdsConstant.STATUS_1,token);
         if(loginInfoBean!=null){
             loginInfoService.udpateStatusByUsername(IdsConstant.STATUS_0, loginInfoBean.getUsername());
             return "{'success':"+true+"}";

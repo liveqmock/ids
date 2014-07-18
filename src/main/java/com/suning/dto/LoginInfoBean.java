@@ -67,6 +67,17 @@ public class LoginInfoBean {
         this.token = token;
     }
 
+    
+    public LoginInfoBean(String username, String password, String userid, String service) {
+        this.username = username;
+        this.password = password;
+        this.userid = userid;
+        this.service = service;
+    }
+
+    public LoginInfoBean() {
+    }
+
    
 
     

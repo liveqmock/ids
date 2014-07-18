@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.suning.constant.IdsConstant;
 import com.suning.dto.LoginInfoBean;
 import com.suning.service.LoginInfoHandleService;
 import com.suning.service.LoginInfoService;
@@ -27,8 +30,9 @@ public class PrePassPortController {
      * @return 返回值 
      */
     @RequestMapping(value={"/login"})
-    public String login(LoginInfoBean loginInfoBean) {
-      return loginInfoHandleService.login(loginInfoBean);
+    public String login( @RequestParam String username, String service,String password) {
+        LoginInfoBean loginInfoBean=new LoginInfoBean(username, password, null, service);
+        return loginInfoHandleService.login(loginInfoBean);
        
     }
     /**
@@ -43,7 +47,7 @@ public class PrePassPortController {
      */
     @RequestMapping(value={"/serviceIsNull"})
     @ResponseBody
-    public String serviceIsNull(String token){
+    public String serviceIsNull(@RequestParam String token){
         return token;
     }
 
@@ -57,8 +61,8 @@ public class PrePassPortController {
      */
     @RequestMapping("/queryUserIdByToken")
     @ResponseBody
-    public String queryUserIdByToken(String token) {
-        return loginInfoService.queryUserIdByToken(token);
+    public String queryUserIdByToken(@RequestParam String token) {
+        return loginInfoService.queryUserIdByToken(IdsConstant.STATUS_1,token);
     }
     
     /**
@@ -71,14 +75,14 @@ public class PrePassPortController {
      */
     @RequestMapping("/queryUsernameByToken")
     @ResponseBody
-    public String queryUsernameByToken(String token){
-        return loginInfoService.queryUsernamedByToken(token);
+    public String queryUsernameByToken(@RequestParam String token){
+        return loginInfoService.queryUsernamedByToken(IdsConstant.STATUS_1,token);
        
     }
 
     /**
      * 
-     * 功能描述：登出的时候根据token删除全局变量的userId
+     * 功能描述：登出的 
      * 输入参数：<按照参数定义顺序> 
      * @param 参数说明
      * 返回值:  类型 <说明> 
@@ -86,13 +90,14 @@ public class PrePassPortController {
      */
     @RequestMapping(value={"/logout"},produces={"application/json; charset=utf-8"})
     @ResponseBody
-    public String logout(String token) {
+    public String logout(@RequestParam String token) {
         return loginInfoHandleService.logout(token);
     }
     
     @RequestMapping("/addLoginInfo")
     @ResponseBody
-    public void addLoginInfo(LoginInfoBean loginInfoBean){
+    public void addLoginInfo(@RequestParam String username ,@RequestParam String userid,String password){
+        LoginInfoBean loginInfoBean=new LoginInfoBean(username, password, userid, null);
         loginInfoHandleService.addOrUpdateLoginInfo(loginInfoBean);
     }
     
